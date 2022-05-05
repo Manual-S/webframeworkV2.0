@@ -19,9 +19,9 @@ import (
 	"sync"
 	"time"
 
-	"webframework/framework/gin/binding"
+	"webframeworkV2.0/framework/gin/binding"
 
-	"webframework/framework/gin/render"
+	"webframeworkV2.0/framework/gin/render"
 
 	"github.com/gin-contrib/sse"
 )

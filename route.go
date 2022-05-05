@@ -3,8 +3,9 @@ package main
 
 import (
 	"time"
-	"webframework/framework"
-	"webframework/framework/middleware"
+
+	"webframeworkV2.0/framework"
+	"webframeworkV2.0/framework/middleware"
 )
 
 func registerRouter(core *framework.Core) {
