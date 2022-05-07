@@ -20,6 +20,8 @@ import (
 	"sync"
 	"time"
 
+	"webframeworkV2.0/framework"
+
 	"github.com/gin-contrib/sse"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/gin-gonic/gin/render"
@@ -45,6 +47,7 @@ const abortIndex int8 = math.MaxInt8 / 2
 // Context is the most important part of gin. It allows us to pass variables between middleware,
 // manage the flow, validate the JSON of a request and render a JSON response for example.
 type Context struct {
+	container framework.Container
 	writermem responseWriter
 	Request   *http.Request
 	Writer    ResponseWriter
@@ -766,9 +769,9 @@ func (ctx *Context) ClientIP() string {
 	return remoteIP.String()
 }
 
-func (e *Engine) isTrustedProxy(ip net.IP) bool {
-	if e.trustedCIDRs != nil {
-		for _, cidr := range e.trustedCIDRs {
+func (engine *Engine) isTrustedProxy(ip net.IP) bool {
+	if engine.trustedCIDRs != nil {
+		for _, cidr := range engine.trustedCIDRs {
 			if cidr.Contains(ip) {
 				return true
 			}
@@ -794,7 +797,7 @@ func (ctx *Context) RemoteIP() (net.IP, bool) {
 	return remoteIP, ctx.engine.isTrustedProxy(remoteIP)
 }
 
-func (e *Engine) validateHeader(header string) (clientIP string, valid bool) {
+func (engine *Engine) validateHeader(header string) (clientIP string, valid bool) {
 	if header == "" {
 		return "", false
 	}
@@ -808,7 +811,7 @@ func (e *Engine) validateHeader(header string) (clientIP string, valid bool) {
 
 		// X-Forwarded-For is appended by proxy
 		// Check IPs in reverse order and stop when find untrusted proxy
-		if (i == 0) || (!e.isTrustedProxy(ip)) {
+		if (i == 0) || (!engine.isTrustedProxy(ip)) {
 			return ipStr, true
 		}
 	}
