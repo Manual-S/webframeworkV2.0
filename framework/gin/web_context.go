@@ -1,10 +1,18 @@
 package gin
 
-import "webframeworkV2.0/framework"
+import (
+	"context"
 
+	"webframeworkV2.0/framework"
+)
+
+func (ctx *Context) BaseContext() context.Context {
+	return ctx.Request.Context()
+}
+
+// Bind 实现container的绑定封装
 func (engine *Engine) Bind(provider framework.ServiceProvider) error {
-	// todo
-	return nil
+	return engine.container.Bind(provider)
 }
 
 func (engine *Engine) IsBind(key string) bool {
@@ -12,15 +20,17 @@ func (engine *Engine) IsBind(key string) bool {
 	return false
 }
 
-func (engine *Engine) Make(key string) (interface{}, error) {
+// context 实现container的几个封装
+
+func (ctx *Context) Make(key string) (interface{}, error) {
 	return nil, nil
 }
 
-func (engine *Engine) MustMake(key string) interface{} {
-	return nil
+func (ctx *Context) MustMake(key string) interface{} {
+	return ctx.container.MustMake(key)
 }
 
-func (engine *Engine) MakeNew(key string, params []interface{}) (interface{}, error) {
+func (ctx *Context) MakeNew(key string, params []interface{}) (interface{}, error) {
 	// todo
 	return nil, nil
 }

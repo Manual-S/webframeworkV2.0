@@ -185,11 +185,12 @@ func New() *Engine {
 		RemoveExtraSlash:       false,
 		UnescapePathValues:     true,
 		MaxMultipartMemory:     defaultMultipartMemory,
-		trees:                  make(methodTrees, 0, 9),
-		delims:                 render.Delims{Left: "{{", Right: "}}"},
-		secureJSONPrefix:       "while(1);",
-		trustedProxies:         []string{"0.0.0.0/0"},
-		trustedCIDRs:           defaultTrustedCIDRs,
+		// trees 负责存储路由和handle方法的映射 采用类似字典树的结构
+		trees:            make(methodTrees, 0, 9),
+		delims:           render.Delims{Left: "{{", Right: "}}"},
+		secureJSONPrefix: "while(1);",
+		trustedProxies:   []string{"0.0.0.0/0"},
+		trustedCIDRs:     defaultTrustedCIDRs,
 	}
 	engine.RouterGroup.engine = engine
 	engine.pool.New = func() interface{} {
