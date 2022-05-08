@@ -16,14 +16,13 @@ func (engine *Engine) Bind(provider framework.ServiceProvider) error {
 }
 
 func (engine *Engine) IsBind(key string) bool {
-	// todo
-	return false
+	return engine.container.IsBind(key)
 }
 
 // context 实现container的几个封装
 
 func (ctx *Context) Make(key string) (interface{}, error) {
-	return nil, nil
+	return ctx.container.Make(key)
 }
 
 func (ctx *Context) MustMake(key string) interface{} {

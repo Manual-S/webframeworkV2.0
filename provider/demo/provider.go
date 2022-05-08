@@ -17,7 +17,7 @@ func (sp *DemoServiceProvider) Name() string {
 
 // Register 是注册初始化服务实例的方法
 func (sp *DemoServiceProvider) Register(c framework.Container) framework.NewInstance {
-	return nil
+	return NewDemoService
 }
 
 // IsDefer 表示是否延迟实例化 这里设置为true 表示延迟初始化
