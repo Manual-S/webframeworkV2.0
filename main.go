@@ -1,20 +1,23 @@
 package main
 
 import (
-	"net/http"
+	"fmt"
 
-	"webframeworkV2.0/provider/demo"
-
-	"webframeworkV2.0/framework/gin"
+	"webframeworkV2.0/app/http"
+	"webframeworkV2.0/framework"
 )
 
 func main() {
-	core := gin.New()
-	core.Bind(&demo.DemoServiceProvider{})
-	registerRouter(core)
-	server := &http.Server{
-		Handler: core,
-		Addr:    ":8080",
+
+	// 初始化服务容器
+	container := framework.NewWebContainer()
+
+	engine, err := http.NewHttpEngine()
+	if err != nil {
+		// 报错
+		fmt.Printf("NewHttpEngine error %v", err)
 	}
-	server.ListenAndServe()
+
+	container.Bind(engine)
+
 }
